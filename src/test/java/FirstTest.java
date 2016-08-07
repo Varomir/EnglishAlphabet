@@ -4,31 +4,19 @@ public class FirstTest extends TestRunner {
 
     @Test
     public void stubTest01(){
-        System.out.println("=============================");
-        System.out.println("Test thread #1 started");
-        System.out.println(driverData.getBrowser());
-        System.out.println(driverData.getTimeout());
-        System.out.println(System.getProperty("user.dir") + System.getProperty("file.separator") + driverData.getAutRelativePath());
-        System.out.println("Test thread #1 finished");
+        long id = Thread.currentThread().getId();
+        System.out.println("Before test-method01. Thread id is: " + id);
     }
 
     @Test
     public void stubTest02(){
-        System.out.println("=============================");
-        System.out.println("Test thread #2 started");
-        System.out.println(driverData.getBrowser());
-        System.out.println(driverData.getTimeout());
-        System.out.println(System.getProperty("user.dir") + System.getProperty("file.separator") + driverData.getAutRelativePath());
-        System.out.println("Test thread #2 finished");
+        long id = Thread.currentThread().getId();
+        System.out.println("Before test-method02. Thread id is: " + id);
     }
 
     @Test
     public void stubTest03(){
-        System.out.println("=============================");
-        System.out.println("Test thread #3 started");
-        System.out.println(driverData.getBrowser());
-        System.out.println(driverData.getTimeout());
-        System.out.println(System.getProperty("user.dir") + System.getProperty("file.separator") + driverData.getAutRelativePath());
-        System.out.println("Test thread #3 finished");
+        long id = Thread.currentThread().getId();
+        System.out.println("Before test-method03. Thread id is: " + id);
     }
 }
