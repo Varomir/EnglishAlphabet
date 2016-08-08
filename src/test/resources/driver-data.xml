@@ -7,7 +7,7 @@
     <bean id="driver" class="spring.constructors.DriverData">
         <property name="browser" value="chrome"/>
         <!--<property name="browser" value="firefox"/>-->
-        <property name="timeout" value="30"/>
+        <property name="timeout" value="15"/>
         <property name="autRelativePath" value="AUT/index.html"/>
     </bean>
 </beans>
