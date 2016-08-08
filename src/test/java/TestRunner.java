@@ -15,6 +15,8 @@ public class TestRunner extends AbstractTestNGSpringContextTests {
 
     protected ThreadLocal<WebDriver> threadLocalDriver = new ThreadLocal<>();
     private static final String AUT_PATH = "file:///" + System.getProperty("user.dir").replaceAll("\\\\", "/") + "/";
+    protected HomePage homePage;
+
     @Autowired
     @Qualifier("driver")
     public DriverData driverData;
@@ -23,7 +25,8 @@ public class TestRunner extends AbstractTestNGSpringContextTests {
     public void init() {
         threadLocalDriver.set(initWebDriver(driverData.getBrowser()));
         threadLocalDriver.get().get(AUT_PATH + driverData.getAutRelativePath());
-        HomePage homePage = new HomePage(threadLocalDriver.get(), driverData);
+        homePage = new HomePage(threadLocalDriver.get(), driverData);
+        //homePage = new HomePage(threadLocalDriver, driverData);
     }
 
     @AfterMethod(alwaysRun = true)
@@ -44,7 +47,7 @@ public class TestRunner extends AbstractTestNGSpringContextTests {
 //                driver = new PhantomJSDriver();
 //                break;
             default:
-                throw new RuntimeException("Unsopported broser [" + browser + "] exception");
+                throw new RuntimeException("Unsupported broser [" + browser + "] exception");
         }
         return driver;
     }
