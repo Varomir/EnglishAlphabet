@@ -1,6 +1,7 @@
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
@@ -15,6 +16,8 @@ public class TestRunner extends AbstractTestNGSpringContextTests {
 
     protected ThreadLocal<WebDriver> threadLocalDriver = new ThreadLocal<>();
     private static final String AUT_PATH = "file:///" + System.getProperty("user.dir").replaceAll("\\\\", "/") + "/";
+    protected HomePage homePage;
+
     @Autowired
     @Qualifier("driver")
     public DriverData driverData;
@@ -23,7 +26,7 @@ public class TestRunner extends AbstractTestNGSpringContextTests {
     public void init() {
         threadLocalDriver.set(initWebDriver(driverData.getBrowser()));
         threadLocalDriver.get().get(AUT_PATH + driverData.getAutRelativePath());
-        HomePage homePage = new HomePage(threadLocalDriver.get(), driverData);
+        homePage = new HomePage(threadLocalDriver.get(), driverData);
     }
 
     @AfterMethod(alwaysRun = true)
@@ -35,16 +38,22 @@ public class TestRunner extends AbstractTestNGSpringContextTests {
         WebDriver driver;
         switch (browser) {
             case "chrome":
+                // For windows 'chromedriver.exe' for unix 'chromedriver'
+                System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir") + "\\driver\\chromedriver.exe");
                 driver = new ChromeDriver();
                 break;
             case "firefox":
                 driver = new FirefoxDriver();
                 break;
+            case "iexplore":
+                System.setProperty("webdriver.ie.driver", System.getProperty("user.dir") + "\\driver\\IEDriverServer.exe");
+                driver = new InternetExplorerDriver();
+                break;
 //            case "phantomjs":
 //                driver = new PhantomJSDriver();
 //                break;
             default:
-                throw new RuntimeException("Unsopported broser [" + browser + "] exception");
+                throw new RuntimeException("Unsupported broser [" + browser + "] exception");
         }
         return driver;
     }
