@@ -18,11 +18,9 @@ public class FirstTest extends TestRunner {
         List<String> expectedLetter = Stream.of("Z","Y","X","W","V","U","T","S","R","Q","P","O","N","M","L","K").collect(Collectors.toList());
 
         System.out.println("Before test-method01. Thread id is: " + Thread.currentThread().getId());
-        //assertThat("Default 'English letter' list size was not as expected", homePage.grid.getEnglishLetterSize(), is(equalTo(16)));
-        List<String> actualLetter = new ArrayList<>(32);
-        actualLetter = homePage.grid.getEnglishLettersList();
+        List<String> actualLetter = homePage.grid.getEnglishLettersList();
         assertThat(actualLetter, hasSize(16));
-        assertThat("reason", actualLetter, is(contains(expectedLetter.toArray())));
+        assertThat(actualLetter, is(contains(expectedLetter.toArray())));
     }
 
     @Test
@@ -30,9 +28,7 @@ public class FirstTest extends TestRunner {
         List<String> expected = Stream.of("A","B","C","D","E","F","G","H","I","J").collect(Collectors.toList());
 
         System.out.println("Before test-method02. Thread id is: " + Thread.currentThread().getId());
-        //***assertThat("Default 'English alphabet' list size was not as expected", homePage.tree.getAlphabetSize(), is(equalTo(10)));
-        List<String> actualAlphabet = new ArrayList<>(32);
-        actualAlphabet = homePage.tree.getAlhpabetList();
+        List<String> actualAlphabet = homePage.tree.getAlhpabetList();
         assertThat(actualAlphabet, hasSize(10));
         assertThat(actualAlphabet, contains(expected.toArray()));
         //threadLocalDriver.get().get("http://yahoo.com/");
@@ -43,12 +39,9 @@ public class FirstTest extends TestRunner {
         List<String> expected = Stream.of("A","B","C","D","E","F","G","H","I","J").collect(Collectors.toList());
 
         System.out.println("Before test-method03. Thread id is: " + Thread.currentThread().getId());
-        //System.out.println(homePage.grid.getEnglishLetterSize());
-        List<String> actualLetter = new ArrayList<>(32);
-        actualLetter = homePage.grid.getEnglishLettersList();
+        List<String> actualLetter = homePage.grid.getEnglishLettersList();
         assertThat(actualLetter, hasSize(16));
-
-        //assertThat(homePage.tree.getAlhpabetList(), contains(expected.toArray()));
+        //*assertThat(actualLetter, contains(expected.toArray()));
         //threadLocalDriver.get().get("http://ya.ru/");
     }
 }

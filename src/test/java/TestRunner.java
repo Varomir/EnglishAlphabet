@@ -1,6 +1,7 @@
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
@@ -38,10 +39,15 @@ public class TestRunner extends AbstractTestNGSpringContextTests {
         WebDriver driver;
         switch (browser) {
             case "chrome":
+                System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir") + "\\driver\\chromedriver.exe");
                 driver = new ChromeDriver();
                 break;
             case "firefox":
                 driver = new FirefoxDriver();
+                break;
+            case "iexplore":
+                System.setProperty("webdriver.ie.driver", System.getProperty("user.dir") + "\\driver\\IEDriverServer.exe");
+                driver = new InternetExplorerDriver();
                 break;
 //            case "phantomjs":
 //                driver = new PhantomJSDriver();
