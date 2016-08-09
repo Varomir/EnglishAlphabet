@@ -27,7 +27,6 @@ public class TestRunner extends AbstractTestNGSpringContextTests {
         threadLocalDriver.set(initWebDriver(driverData.getBrowser()));
         threadLocalDriver.get().get(AUT_PATH + driverData.getAutRelativePath());
         homePage = new HomePage(threadLocalDriver.get(), driverData);
-        //homePage = new HomePage(threadLocalDriver, driverData);
     }
 
     @AfterMethod(alwaysRun = true)
@@ -39,6 +38,7 @@ public class TestRunner extends AbstractTestNGSpringContextTests {
         WebDriver driver;
         switch (browser) {
             case "chrome":
+                // For windows 'chromedriver.exe' for unix 'chromedriver'
                 System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir") + "\\driver\\chromedriver.exe");
                 driver = new ChromeDriver();
                 break;

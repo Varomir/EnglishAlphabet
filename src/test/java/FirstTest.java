@@ -1,15 +1,11 @@
 import org.testng.annotations.Test;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.Matchers.hasSize;
-import static org.hamcrest.Matchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.Matchers.*;
 
 public class FirstTest extends TestRunner {
 
@@ -31,17 +27,21 @@ public class FirstTest extends TestRunner {
         List<String> actualAlphabet = homePage.tree.getAlhpabetList();
         assertThat(actualAlphabet, hasSize(10));
         assertThat(actualAlphabet, contains(expected.toArray()));
-        //threadLocalDriver.get().get("http://yahoo.com/");
     }
 
     @Test
-    public void stubTest03(){
-        List<String> expected = Stream.of("A","B","C","D","E","F","G","H","I","J").collect(Collectors.toList());
-
+    public void removeLetterFromTheGRID(){
         System.out.println("Before test-method03. Thread id is: " + Thread.currentThread().getId());
+        homePage.grid.removeLetter("Q");
         List<String> actualLetter = homePage.grid.getEnglishLettersList();
-        assertThat(actualLetter, hasSize(16));
-        //*assertThat(actualLetter, contains(expected.toArray()));
-        //threadLocalDriver.get().get("http://ya.ru/");
+        assertThat(actualLetter, hasSize(15));
+    }
+
+    @Test
+    public void removeLetterFromTheTREE() {
+        System.out.println("Before test-method04. Thread id is: " + Thread.currentThread().getId());
+        homePage.tree.removeLetter("H");
+        List<String> actualAlphabet = homePage.tree.getAlhpabetList();
+        assertThat(actualAlphabet, hasSize(9));
     }
 }
