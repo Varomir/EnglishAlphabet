@@ -2,9 +2,9 @@ package page.objects;
 
 import core.WebDriverUtils;
 import org.openqa.selenium.*;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import ru.yandex.qatools.allure.annotations.Step;
 import spring.constructors.DriverData;
 
 import java.util.ArrayList;
@@ -38,6 +38,7 @@ public class HomePage {
             wait.until(ExpectedConditions.visibilityOfElementLocated(TREE));
         }
 
+        @Step("Remove letter [{0}] from tree")
         public void removeLetter(String letter) {
             String letterRow = getLetterXPATH(letter);
             utils.rightClick(utils.getElement(letterRow));
@@ -45,16 +46,16 @@ public class HomePage {
             wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(letterRow)));
         }
 
+        @Step("Drag and drop letter [{0}] from tree to grid")
         public void dragAndDropToTheGrid(String letterSource, String letterDest) {
             String sourceXPATH = getLetterXPATH(letterSource);
-            System.out.println(sourceXPATH);
             String targetXPATH = grid.getLetterXPATH(letterDest);
-            System.out.println(targetXPATH);
             utils.dragAndDrop(utils.getElement(sourceXPATH), utils.getElement(targetXPATH));
             String insertedLetter = grid.getLetterXPATH(letterSource);
             wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(insertedLetter)));
         }
 
+        @Step("Get 'English alphabet' list from tree")
         public List<String> getAlhpabetList() {
             List<String> actual = new ArrayList<>(32);
             for(WebElement item: utils.getElements(ALPHABET_LIST)) {
@@ -78,6 +79,7 @@ public class HomePage {
             wait.until(ExpectedConditions.visibilityOfElementLocated(GRID));
         }
 
+        @Step("Remove letter [{0}] from grid")
         public void removeLetter(String letter) {
             String letterCheckbox = getLetterXPATH(letter);
             utils.getElement(letterCheckbox).click();
@@ -85,6 +87,7 @@ public class HomePage {
             wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(letterCheckbox)));
         }
 
+        @Step("Drag and drop letter [{0}] from grid to tree")
         public void dragAndDropToTheTree(String letterSource, String letterDest) {
             String sourceXPATH = getLetterXPATH(letterSource);
             String targetXPATH = tree.getLetterXPATH(letterDest);
@@ -93,6 +96,7 @@ public class HomePage {
             wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(insertedLetter)));
         }
 
+        @Step("Get 'English letter' list from grid")
         public List<String> getEnglishLettersList() {
             List<String> actual = new ArrayList<>(32);
             for(WebElement item: utils.getElements(LETTER_LIST)) {

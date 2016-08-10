@@ -2,6 +2,14 @@
 
 BugReport.xlsx
 
-For run test in parallel mode: "mvn clean test"
-'chromedriver' should be unstable which more than 2-4 independent thread
 
+For run test in parallel mode:
+
+ "mvn clean test"
+
+ then for generate Allure report:
+
+ "mvn site"
+
+ and look report here
+ ./target/site/allure-maven-plugin/index.html
