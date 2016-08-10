@@ -11,15 +11,15 @@ import java.util.List;
 
 public class HomePage {
 
-    public ThreadLocal<WebDriver> threadLocal = new ThreadLocal<>();
+    public WebDriver driver;
     protected WebDriverWait wait;
     private static final By ROOT = By.cssSelector("#app-main-1010");
     public LeftPanel tree;
     public RightPanel grid;
 
     public HomePage(WebDriver driver, DriverData driverConfig){
-        this.threadLocal.set(driver);
-        wait = new WebDriverWait(threadLocal.get(), driverConfig.getTimeout());
+        this.driver = driver;
+        wait = new WebDriverWait(driver, driverConfig.getTimeout());
         wait.until(ExpectedConditions.visibilityOfElementLocated(ROOT));
         tree = new LeftPanel();
         grid = new RightPanel();
@@ -36,9 +36,9 @@ public class HomePage {
         }
 
         public void removeLetter(String letter) {
-            String letterRow = "//tbody[@id='treeview-1017-body']/tr/td/div/span[contains(text(), '" + letter + "')]";
-            rightClick(threadLocal.get().findElement(ROOT).findElement(TREE).findElement(By.xpath(letterRow)));
-            threadLocal.get().findElement(DELETE_MENU).click();
+            String letterRow = getLetterXPATH(letter);
+            rightClick(driver.findElement(ROOT).findElement(TREE).findElement(By.xpath(letterRow)));
+            driver.findElement(DELETE_MENU).click();
             wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(letterRow)));
         }
 
@@ -46,10 +46,14 @@ public class HomePage {
             List<String> actual = new ArrayList<>(32);
             wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(ALPHABET_LIST));
             wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(ALPHABET_LIST));
-            for(WebElement item: threadLocal.get().findElements(ALPHABET_LIST)) {
+            for(WebElement item: driver.findElements(ALPHABET_LIST)) {
                 actual.add(item.getText().replaceAll(" ", ""));
             }
             return actual;
+        }
+
+        private String getLetterXPATH(String letter) {
+            return "//tbody[@id='treeview-1017-body']/tr/td/div/span[contains(text(), '" + letter + "')]";
         }
     }
 
@@ -64,28 +68,40 @@ public class HomePage {
         }
 
         public void removeLetter(String letter) {
-            String letterCheckbox = "//div[@id='gridview-1021']//tr[td[contains(@class, 'x-grid-cell-last')]/div[contains(text(), '" +
-                    letter + "')]]/td[contains(@class, 'x-grid-cell-first')]/div/div";
+            String letterCheckbox = getLetterXPATH(letter);
             wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath(letterCheckbox)));
-            threadLocal.get().findElement(ROOT).findElement(GRID).findElement(By.xpath(letterCheckbox)).click();
-            threadLocal.get().findElement(ROOT).findElement(GRID).findElement(REMOVE_BTN).click();
+            driver.findElement(ROOT).findElement(GRID).findElement(By.xpath(letterCheckbox)).click();
+            driver.findElement(ROOT).findElement(GRID).findElement(REMOVE_BTN).click();
             wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(letterCheckbox)));
+        }
+
+        public void dragAndDropToTheTree(String letterSource, String letterDest) {
+            String sourceXPATH = getLetterXPATH(letterSource);
+            wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath(sourceXPATH)));
+            String targetXPATH = tree.getLetterXPATH(letterDest);
+            wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath(targetXPATH)));
+            dragAndDrop(driver.findElement(By.xpath(sourceXPATH)), driver.findElement(By.xpath(targetXPATH)));
         }
 
         public List<String> getEnglishLettersList() {
             List<String> actual = new ArrayList<>(32);
             wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(LETTER_LIST));
             wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(LETTER_LIST));
-            for(WebElement item: threadLocal.get().findElements(LETTER_LIST)) {
+            for(WebElement item: driver.findElements(LETTER_LIST)) {
                 actual.add(item.getText().replaceAll(" ", ""));
             }
             return actual;
+        }
+
+        private String getLetterXPATH(String letter) {
+            return "//div[@id='gridview-1021']//tr[td[contains(@class, 'x-grid-cell-last')]/div[contains(text(), '" +
+                    letter + "')]]/td[contains(@class, 'x-grid-cell-first')]/div/div";
         }
     }
 
     private void rightClick(WebElement element) {
         try {
-            Actions action = new Actions(threadLocal.get()).contextClick(element);
+            Actions action = new Actions(driver).contextClick(element);
             action.build().perform();
         } catch (StaleElementReferenceException e) {
             System.out.println("Element is not attached to the page document "
@@ -97,5 +113,9 @@ public class HomePage {
             System.out.println("Element " + element + " was not clickable "
                     + e.getStackTrace());
         }
+    }
+
+    private void dragAndDrop(WebElement source, WebElement target) {
+        (new Actions(driver)).dragAndDrop(source, target).perform();
     }
 }

@@ -49,4 +49,16 @@ public class FirstTest extends TestRunner {
         List<String> actualAlphabet = homePage.tree.getAlhpabetList();
         assertThat(actualAlphabet, hasSize(9));
     }
+
+    @Test
+    public void dragAndDropFromGridToTree() {
+        HomePage homePage = new HomePage(threadLocalDriver.get(), driverData);
+        List<String> expected = Stream.of("A","B","C","D","E","F","G","H","I","J","Q").collect(Collectors.toList());
+
+        System.out.println("Before test-method05. Thread id is: " + Thread.currentThread().getId());
+        homePage.grid.dragAndDropToTheTree("Q", "E");
+        List<String> actualAlphabet = homePage.tree.getAlhpabetList();
+        assertThat(actualAlphabet, hasSize(11));
+        assertThat(actualAlphabet, contains(expected.toArray()));
+    }
 }
