@@ -8,7 +8,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
-import page.objects.HomePage;
 import spring.constructors.DriverData;
 
 @ContextConfiguration(locations={"/spring-config.xml"})
@@ -16,7 +15,6 @@ public class TestRunner extends AbstractTestNGSpringContextTests {
 
     protected ThreadLocal<WebDriver> threadLocalDriver = new ThreadLocal<>();
     private static final String AUT_PATH = "file:///" + System.getProperty("user.dir").replaceAll("\\\\", "/") + "/";
-    protected HomePage homePage;
 
     @Autowired
     @Qualifier("driver")
@@ -26,7 +24,6 @@ public class TestRunner extends AbstractTestNGSpringContextTests {
     public void init() {
         threadLocalDriver.set(initWebDriver(driverData.getBrowser()));
         threadLocalDriver.get().get(AUT_PATH + driverData.getAutRelativePath());
-        homePage = new HomePage(threadLocalDriver.get(), driverData);
     }
 
     @AfterMethod(alwaysRun = true)

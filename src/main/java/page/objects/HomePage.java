@@ -36,18 +36,16 @@ public class HomePage {
         }
 
         public void removeLetter(String letter) {
-            WebDriverWait wait2 = new WebDriverWait(threadLocal.get(), 15);
             String letterRow = "//tbody[@id='treeview-1017-body']/tr/td/div/span[contains(text(), '" + letter + "')]";
             rightClick(threadLocal.get().findElement(ROOT).findElement(TREE).findElement(By.xpath(letterRow)));
             threadLocal.get().findElement(DELETE_MENU).click();
-            wait2.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(letterRow)));
+            wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(letterRow)));
         }
 
         public List<String> getAlhpabetList() {
-            WebDriverWait wait2 = new WebDriverWait(threadLocal.get(), 15);
             List<String> actual = new ArrayList<>(32);
-            wait2.until(ExpectedConditions.presenceOfAllElementsLocatedBy(ALPHABET_LIST));
-            wait2.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(ALPHABET_LIST));
+            wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(ALPHABET_LIST));
+            wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(ALPHABET_LIST));
             for(WebElement item: threadLocal.get().findElements(ALPHABET_LIST)) {
                 actual.add(item.getText().replaceAll(" ", ""));
             }
@@ -66,20 +64,18 @@ public class HomePage {
         }
 
         public void removeLetter(String letter) {
-            WebDriverWait wait2 = new WebDriverWait(threadLocal.get(), 15);
             String letterCheckbox = "//div[@id='gridview-1021']//tr[td[contains(@class, 'x-grid-cell-last')]/div[contains(text(), '" +
                     letter + "')]]/td[contains(@class, 'x-grid-cell-first')]/div/div";
-            wait2.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath(letterCheckbox)));
+            wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath(letterCheckbox)));
             threadLocal.get().findElement(ROOT).findElement(GRID).findElement(By.xpath(letterCheckbox)).click();
             threadLocal.get().findElement(ROOT).findElement(GRID).findElement(REMOVE_BTN).click();
-            wait2.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(letterCheckbox)));
+            wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(letterCheckbox)));
         }
 
         public List<String> getEnglishLettersList() {
-            WebDriverWait wait2 = new WebDriverWait(threadLocal.get(), 15);
             List<String> actual = new ArrayList<>(32);
-            wait2.until(ExpectedConditions.presenceOfAllElementsLocatedBy(LETTER_LIST));
-            wait2.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(LETTER_LIST));
+            wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(LETTER_LIST));
+            wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(LETTER_LIST));
             for(WebElement item: threadLocal.get().findElements(LETTER_LIST)) {
                 actual.add(item.getText().replaceAll(" ", ""));
             }
