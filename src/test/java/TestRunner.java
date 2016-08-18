@@ -2,6 +2,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
@@ -13,6 +15,7 @@ import spring.constructors.DriverData;
 @ContextConfiguration(locations={"/spring-config.xml"})
 public class TestRunner extends AbstractTestNGSpringContextTests {
 
+    protected static final Logger LOG = LoggerFactory.getLogger(TestRunner.class);
     protected ThreadLocal<WebDriver> threadLocalDriver = new ThreadLocal<>();
     private static final String AUT_PATH = "file:///" + System.getProperty("user.dir").replaceAll("\\\\", "/") + "/";
 
